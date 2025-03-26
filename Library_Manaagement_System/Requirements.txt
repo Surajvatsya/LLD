@@ -1,0 +1,20 @@
+Requiremnts 
+
+1.system has catalog
+2.user can search based on domain (phy/chem) or topic
+3.Admin can issue a book to user
+4.Admin can add/remove book from database
+5.checkout/payment
+6. admin can collect book
+7. reserve book for a given duration and reserve if book is not available either
+8. user pay to admin
+9.notification 
+10. return book by user
+11. logs of books issued
+12. user can see all the books he has taken till date
+13. Admin can see users and book associated with that users
+14. late fines
+15. each book must have barcode (row,col)
+16. system has to maintain copies of book and user can reserve any book
+17. max no of book allowed for a user
+18. max no of days a user can be allowed to keep the book
