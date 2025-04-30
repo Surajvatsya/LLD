@@ -1,0 +1,39 @@
+Q. inside booking should we keep rideid or whole ride object?
+
+Inside the `booking` table, it is **better to keep only the `rideId` (foreign key)** instead of the entire `Ride` object. Here's why:
+
+---
+
+### ✅ Reasons to Use `rideId` (Foreign Key)
+1. **Normalization & Avoid Redundancy**:
+   - You don’t want to duplicate the same ride details in multiple places (especially if more than one booking could hypothetically point to the same ride).
+
+2. **Consistency**:
+   - If ride details change (e.g., fare, status), updating them in the `ride` table ensures consistency everywhere.
+
+3. **Performance**:
+   - Smaller row size in the `booking` table leads to faster queries, especially for write-heavy systems.
+
+4. **Flexibility**:
+   - You can fetch full ride details **only when needed** (e.g., in a JOIN query), keeping the booking lightweight.
+
+---
+
+### ❌ Why Not Store Full Ride Object in `booking`
+- **Data duplication**: Each booking would store the same ride data redundantly.
+- **Update issues**: Any update to the ride requires changes in all bookings that copied the ride.
+- **Storage inefficiency**: More data means more storage, which is unnecessary.
+
+---
+
+### Conclusion:
+Keep only `rideId` in the `booking` table (as shown in your schema). When needed, you can always retrieve the full `ride` details via a JOIN:
+
+```sql
+SELECT *
+FROM booking b
+JOIN ride r ON b.rideId = r.id
+WHERE b.id = <some_booking_id>;
+```
+
+Let me know if you want a diagram or SQL model for this!
