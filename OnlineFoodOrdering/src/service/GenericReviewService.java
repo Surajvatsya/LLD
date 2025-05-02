@@ -1,8 +1,10 @@
 package service;
 
 import model.Review;
+import java.util.List; // Add missing import
 
 public interface GenericReviewService {
-    void addreview(Review review);
-    Review getReviewById(String restaurantid);
+    void addReview(Review review); // Renamed method
+    // Renamed method for clarity
+    List<Review> getReviewsByRestaurantId(String restaurantid);
 }

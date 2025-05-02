@@ -3,20 +3,33 @@ package repository;
 import model.Order;
 import model.User;
 
+import model.Order;
+// import model.User; // Unused import
+
 import java.util.HashMap;
+// Consider using ConcurrentHashMap for thread safety if needed
+// import java.util.concurrent.ConcurrentHashMap;
+// import java.util.concurrent.ConcurrentMap;
 
-public class OrderRepo implements GenericOrder{
+public class OrderRepo implements GenericOrder {
 
-    private HashMap<String, Order> orderHashMap = new HashMap<>();
+    // private final ConcurrentMap<String, Order> orderMap = new ConcurrentHashMap<>();
+    private final HashMap<String, Order> orderHashMap = new HashMap<>(); // Made final
 
     @Override
     public void createOrder(Order order) {
-        orderHashMap.put(order.getId(), order);
+        if (order != null && order.getId() != null) { // Added null checks
+            orderHashMap.put(order.getId(), order);
+        }
     }
 
     @Override
     public Order getOrder(String orderId) {
-       return orderHashMap.get(orderId);
+        if (orderId == null) { // Added null check
+            return null;
+        }
+        // Consider throwing OrderNotFoundException if null is returned
+        return orderHashMap.get(orderId);
     }
 
 //    @Override

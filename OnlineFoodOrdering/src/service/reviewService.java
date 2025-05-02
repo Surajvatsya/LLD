@@ -3,12 +3,12 @@ package service;
 import model.Review;
 import repository.GenericReview;
 
-public class reviewService implements GenericReviewService{
+public class ReviewService implements GenericReviewService{ // Renamed class
 
     GenericReview reviewRepo;
     @Override
-    public void addreview(Review review) {
-        reviewRepo.addreview(review);
+    public void addReview(Review review) { // Renamed method definition
+        reviewRepo.addReview(review); // Renamed method call
     }
 
     @Override

@@ -1,27 +1,39 @@
 package model;
 
+import java.math.BigDecimal; // Added import
+
+// Represents an item (dish) on a menu
 public class Item {
-    private String id;
+    // TODO: Consider extending Base if Item needs createdAt/updatedAt
+    private final String id; // Made final
     private String dishName;
     private int availableQuantity;
-    private boolean isVeg;
-    private boolean isAvailable;
+    private final boolean isVeg; // Made final
+    // Removed isAvailable field; derived from availableQuantity
+    private BigDecimal price; // Added price field
 
-    public Item(String id, String dishName, int availableQuantity, boolean isVeg, boolean isAvailable) {
+    /**
+     * Constructor for Item.
+     * @param id Unique ID for the item.
+     * @param dishName Name of the dish.
+     * @param price Price of the item.
+     * @param availableQuantity Initial available quantity.
+     * @param isVeg Whether the item is vegetarian.
+     */
+    public Item(String id, String dishName, BigDecimal price, int availableQuantity, boolean isVeg) {
+        // Note: Removed isAvailable parameter as it's now derived
         this.id = id;
         this.dishName = dishName;
+        this.price = price; // Initialize price
         this.availableQuantity = availableQuantity;
         this.isVeg = isVeg;
-        this.isAvailable = isAvailable;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    // Removed setId as id is final
 
     public String getDishName() {
         return dishName;
@@ -39,19 +51,30 @@ public class Item {
         this.availableQuantity = availableQuantity;
     }
 
+    // Added getter for price
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    // Added setter for price
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     public boolean isVeg() {
         return isVeg;
     }
 
-    public void setVeg(boolean veg) {
-        isVeg = veg;
-    }
+    // Removed setVeg as isVeg is final
 
+    /**
+     * Checks if the item is available based on quantity.
+     * @return true if availableQuantity > 0, false otherwise.
+     */
     public boolean isAvailable() {
-        return isAvailable;
+        // Derived availability from quantity
+        return this.availableQuantity > 0;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
+    // Removed setAvailable as isAvailable is derived
 }

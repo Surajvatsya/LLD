@@ -1,18 +1,29 @@
 package model;
 
-public class Review {
+// Represents a user review for a restaurant.
+public class Review extends Base { // Extend Base
+    // TODO: Consider using int for rating if it's discrete (e.g., 1-5 stars).
     private double rating;
-    private String review;
-    private String userId;
-    private String restaurantid;
-    private String id;
+    private String review; // Review text
+    private final String userId; // Made final
+    // Removed restaurantId field - relationship managed from Restaurant class
+    // id is inherited from Base
 
-    public Review(double rating, String review, String restaurantid, String userId, String id) {
+    /**
+     * Constructor for Review.
+     * @param id Unique ID for the review (from Base).
+     * @param userId ID of the user who wrote the review.
+     * @param rating The rating given (e.g., 1.0 to 5.0).
+     * @param review The text content of the review.
+     */
+    // Removed restaurantId parameter
+    public Review(String id, String userId, double rating, String review) {
+        super(id); // Call Base constructor
+        this.userId = userId;
+        // Removed restaurantId assignment
+        // TODO: Add validation for rating range (e.g., 1-5)
         this.rating = rating;
         this.review = review;
-        this.restaurantid = restaurantid;
-        this.userId = userId;
-        this.id = id;
     }
 
     public double getRating() {
@@ -20,6 +31,7 @@ public class Review {
     }
 
     public void setRating(double rating) {
+        // TODO: Add validation for rating range (e.g., 1-5)
         this.rating = rating;
     }
 
@@ -35,23 +47,10 @@ public class Review {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    // Removed setUserId as userId is final
 
-    public String getId() {
-        return id;
-    }
+    // getId() is inherited from Base
+    // Removed setId as id is inherited and final in Base
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getRestaurantid() {
-        return restaurantid;
-    }
-
-    public void setRestaurantid(String restaurantid) {
-        this.restaurantid = restaurantid;
-    }
+    // Removed getRestaurantId() method
 }

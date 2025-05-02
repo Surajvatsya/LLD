@@ -1,10 +1,15 @@
 package service;
 
 import model.Order;
+import exception.OrderNotFoundException; // Import the new exception
 
 public interface GenericOrderService {
-    void createOrder(Order order);
-    Order getOrder(String orderId);
-    void cancelOrder(String orderId);
-    void reOrder(String orderId);
+    // Return the created order
+    Order createOrder(Order order);
+    // Declare exception if order not found
+    Order getOrder(String orderId) throws OrderNotFoundException;
+    // Return boolean for success/failure
+    boolean cancelOrder(String orderId);
+    // Return the new order, declare exception if original not found
+    Order reOrder(String orderId) throws OrderNotFoundException;
 }
