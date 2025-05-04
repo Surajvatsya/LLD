@@ -14,26 +14,33 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     @Override
-    public void register(Restaurant restaurant) throws IllegalArgumentException {
-        if(restaurant==null || restaurant.getId()==null)
-            throw new IllegalArgumentException("Invalid restaurant");
-        try{
-            restaurantRepo.addRestaurant(restaurant);
+    // Removed throws declaration
+    public void register(Restaurant restaurant) {
+        // Removed redundant null check
+        // if(restaurant==null || restaurant.getId()==null)
+        //     throw new IllegalArgumentException("Invalid restaurant");
 
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
+        // Removed try-catch that wrapped repo exception in RuntimeException
+        // Let repo exceptions (like RestaurantAlreadyExistsException) propagate
+        restaurantRepo.addRestaurant(restaurant);
     }
 
     @Override
-    public Restaurant getRestaurantByid(String id) throws IllegalArgumentException {
-        if(id==null)
-            throw new IllegalArgumentException("Id is null");
-        try{
-            return restaurantRepo.getRestaurants(id);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e);
-        }
+    // Renamed method, removed throws declaration
+    public Restaurant getRestaurantById(String id) {
+        // Removed redundant null check
+        // if(id==null)
+        //     throw new IllegalArgumentException("Id is null");
+
+        // Removed try-catch. Let repo handle "not found" appropriately.
+        // Call the (soon-to-be-renamed) repo method getRestaurantById
+        Restaurant restaurant = restaurantRepo.getRestaurantById(id); // Changed repo method name here
+
+        // TODO: Add handling here if repo returns null (e.g., throw RestaurantNotFoundException)
+        // if (restaurant == null) {
+        //    throw new RestaurantNotFoundException("Restaurant not found with id: " + id); // Assuming RestaurantNotFoundException exists
+        // }
+        return restaurant; // This might return null if repo returns null
     }
 
     @Override

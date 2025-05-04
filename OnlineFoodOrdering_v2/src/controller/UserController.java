@@ -10,28 +10,36 @@ public class UserController {
         this.userService = userService;
     }
 
-    void register(User user){
+    // Make method public and remove redundant try-catch
+    public void register(User user){
         if(user == null || user.getId()==null){
-            throw  new IllegalArgumentException("Invalid user");
+            throw  new IllegalArgumentException("Invalid user data provided to controller."); // Slightly more specific message
         }
-        try{
+        // Add try-catch for RuntimeExceptions from service layer
+        try {
             userService.register(user);
-        }
-        catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e);
+        } catch (RuntimeException e) {
+            // Log the exception here if needed
+            System.err.println("Error during user registration in controller: " + e.getMessage());
+            // Re-throw the exception to propagate it to the caller (e.g., Main)
+            throw e;
         }
     }
 
-    User getUserById(String id){
-        if(id == null)
-        {
-            throw new IllegalArgumentException("Invalid user");
+    // Make method public and add try-catch
+    public User getUserById(String id){
+        if(id == null) {
+            throw new IllegalArgumentException("Invalid user ID provided to controller."); // Slightly more specific message
         }
-        try{
+        // Add try-catch for RuntimeExceptions from service layer
+        try {
+            // Service layer should handle null from repo and potentially throw UserNotFoundException
             return userService.getUserById(id);
-        }
-        catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e);
+        } catch (RuntimeException e) {
+            // Log the exception here if needed
+            System.err.println("Error fetching user by ID in controller: " + e.getMessage());
+            // Re-throw the exception to propagate it to the caller (e.g., Main)
+            throw e;
         }
     }
 }

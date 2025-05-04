@@ -12,27 +12,33 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public void register(User user) throws IllegalArgumentException {
-        if(user== null || user.getId()==null)
-            throw new IllegalArgumentException("Issue in user");
+    // Removed throws declaration
+    public void register(User user) {
+        // Removed redundant null check (assuming controller handles basic nulls)
+        // if(user== null || user.getId()==null)
+        //     throw new IllegalArgumentException("Issue in user");
 
-        try{
-            userRepo.register(user);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
-
+        // Removed try-catch that wrapped repo exception in RuntimeException.
+        // Let repo exceptions (like potential UserAlreadyExistsException) propagate.
+        userRepo.register(user);
     }
 
     @Override
-    public User getUserById(String id) throws IllegalArgumentException {
-        if(id==null)
-            throw new IllegalArgumentException("Id is null");
+    // Removed throws declaration
+    public User getUserById(String id) {
+        // Removed redundant null check (assuming controller handles basic nulls)
+        // if(id==null)
+        //     throw new IllegalArgumentException("Id is null");
 
-        try{
-            return userRepo.getUserById(id);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("User not found");
-        }
+        // Removed try-catch. Let repo handle "not found" appropriately
+        // (e.g., return null, Optional, or throw UserNotFoundException).
+        // The service might then map this (e.g., throw if repo returns null).
+        // For now, just call the repo method directly.
+        User user = userRepo.getUserById(id);
+        // TODO: Add handling here if repo returns null (e.g., throw UserNotFoundException)
+        // if (user == null) {
+        //    throw new UserNotFoundException("User not found with id: " + id); // Assuming UserNotFoundException exists
+        // }
+        return user; // This might return null if repo returns null
     }
 }

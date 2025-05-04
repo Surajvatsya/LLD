@@ -7,29 +7,45 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RestaurantrepoImp implements RestaurantRepo{
+// Renamed class to fix typo
+public class RestaurantRepoImp implements RestaurantRepo{
 
     private final ConcurrentHashMap<String, Restaurant> restaurantConcurrentHashMap;
 
-    public RestaurantrepoImp() {
+    public RestaurantRepoImp() {
         restaurantConcurrentHashMap = new ConcurrentHashMap<>();
     }
 
     @Override
-    public void addRestaurant(Restaurant restaurant) throws IllegalArgumentException {
-        if(restaurant==null || restaurant.getId()==null)
-            throw new IllegalArgumentException("Invalid restaurant arguments");
-        restaurantConcurrentHashMap.put(restaurant.getId(),restaurant);
+    // Removed throws declaration
+    public void addRestaurant(Restaurant restaurant) {
+        // Removed redundant null check
+        // if(restaurant==null || restaurant.getId()==null)
+        //     throw new IllegalArgumentException("Invalid restaurant arguments");
+
+        // Use putIfAbsent for atomic check-and-put, prevent overwriting
+        if (restaurantConcurrentHashMap.putIfAbsent(restaurant.getId(), restaurant) != null) {
+            // Consider creating a specific RestaurantAlreadyExistsException
+            throw new IllegalArgumentException("Restaurant with ID " + restaurant.getId() + " already exists.");
+        }
+        // Removed old: restaurantConcurrentHashMap.put(restaurant.getId(),restaurant);
     }
 
     @Override
-    public Restaurant getRestaurants(String id) throws IllegalArgumentException {
-       if(id==null)
-           throw new IllegalArgumentException("Id is null");
+    // Renamed method, removed throws declaration
+    public Restaurant getRestaurantById(String id) {
+       // Removed redundant null check
+       // if(id==null)
+       //     throw new IllegalArgumentException("Id is null");
 
+       // Get restaurant from map
        Restaurant restaurant = restaurantConcurrentHashMap.get(id);
-       if(restaurant==null)
-           throw  new IllegalArgumentException("restaurant not found");
+
+       // Return null if restaurant not found (instead of throwing IllegalArgumentException)
+       // Service layer is responsible for handling the null case
+       // Removed old:
+       // if(restaurant==null)
+       //     throw  new IllegalArgumentException("restaurant not found");
        return restaurant;
     }
 

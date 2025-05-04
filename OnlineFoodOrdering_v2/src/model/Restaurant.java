@@ -2,17 +2,17 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections; // Added import
 import java.util.List;
 
 public class Restaurant extends Base{
 
-
     private String name;
     private String mobile;
-    private Menu menu; // question
+    private Menu menu; // Removed comment
     private Address address;
     private final List<Address> serviceAreas;
-    //make rating n review class
+    // Removed comment
 
 
     public Restaurant(String id, LocalDateTime createdAt, String name, String mobile, Menu menu, Address address) {
@@ -28,8 +28,21 @@ public class Restaurant extends Base{
         return name;
     }
 
+    // Added getter for mobile
+    public String getMobile() {
+        return mobile;
+    }
+
+    // Return unmodifiable list
     public List<Address> getServiceAreas() {
-        return serviceAreas;
+        return Collections.unmodifiableList(serviceAreas);
+    }
+
+    // Added method to add service areas
+    public void addServiceArea(Address area) {
+        if (area != null) {
+            this.serviceAreas.add(area);
+        }
     }
 
     public Address getAddress() {
@@ -38,6 +51,11 @@ public class Restaurant extends Base{
 
     public Menu getMenu() {
         return menu;
+    }
+
+    // Optional: Add null checks to setters if needed
+    public void setName(String name) { // Added setter for name
+        this.name = name;
     }
 
     public void setMobile(String mobile) {
@@ -55,7 +73,8 @@ public class Restaurant extends Base{
     @Override
     public String toString() {
         return "Restaurant{" +
-                "name='" + name + '\'' +
+                "id='" + getId() + '\'' + // Added id from Base
+                ", name='" + name + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", menu=" + menu +
                 ", address=" + address +
